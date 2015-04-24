@@ -98,9 +98,9 @@ namespace OfficeDevPnP.Core.Framework.Provisioning.ObjectHandlers
             }
 
             // Information coming from the site
-            template.ComposedLook.AlternateCSS = Tokenize(web.AlternateCssUrl, web.Url);
-            template.ComposedLook.MasterPage = Tokenize(web.MasterUrl, web.Url);
-            template.ComposedLook.SiteLogo = Tokenize(web.SiteLogoUrl, web.Url);
+            template.ComposedLook.AlternateCSS = web.IsObjectPropertyInstantiated("AlternateCssUrl") ? Tokenize(web.AlternateCssUrl, web.Url) : null;
+            template.ComposedLook.MasterPage = web.IsObjectPropertyInstantiated("MasterUrl") ? Tokenize(web.MasterUrl, web.Url) : null;
+            template.ComposedLook.SiteLogo = web.IsObjectPropertyInstantiated("SiteLogoUrl") ? Tokenize(web.SiteLogoUrl, web.Url) : null;
 
             var theme = web.GetCurrentComposedLook();
 

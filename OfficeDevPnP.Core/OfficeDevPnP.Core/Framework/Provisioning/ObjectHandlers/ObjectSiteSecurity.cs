@@ -77,22 +77,18 @@ namespace OfficeDevPnP.Core.Framework.Provisioning.ObjectHandlers
 
             web.Context.ExecuteQueryRetry();
 
-            var owners = new List<User>();
-            var members = new List<User>();
-            var visitors = new List<User>();
+            var owners = ownerGroup.IsObjectPropertyInstantiated("Users") ? 
+                ownerGroup.Users.AsEnumerable().Select(u => new User(){ Name = u.LoginName}).ToList() : 
+                new List<User>();
 
-            foreach (var member in ownerGroup.Users)
-            {
-                owners.Add(new User() {Name = member.LoginName});
-            }
-            foreach (var member in memberGroup.Users)
-            {
-                members.Add(new User() { Name = member.LoginName });
-            }
-            foreach (var member in visitorGroup.Users)
-            {
-                visitors.Add(new User() { Name = member.LoginName });
-            }
+            var members = memberGroup.IsObjectPropertyInstantiated("Users") ?
+                memberGroup.Users.AsEnumerable().Select(u => new User() { Name = u.LoginName }).ToList() : 
+                new List<User>();
+
+            var visitors = visitorGroup.IsObjectPropertyInstantiated("Users") ?
+                visitorGroup.Users.AsEnumerable().Select(u => new User() { Name = u.LoginName }).ToList() : 
+                new List<User>();
+
             var siteSecurity = new SiteSecurity();
             siteSecurity.AdditionalOwners.AddRange(owners);
             siteSecurity.AdditionalMembers.AddRange(members);
